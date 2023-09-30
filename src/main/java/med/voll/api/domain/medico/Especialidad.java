@@ -1,4 +1,4 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
 /**
  * @author jdmon on 28/09/2023.
