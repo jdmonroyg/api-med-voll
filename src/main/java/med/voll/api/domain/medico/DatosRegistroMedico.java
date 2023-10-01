@@ -16,7 +16,7 @@ public record DatosRegistroMedico(
         @NotBlank(message = "{nombre.obligatorio}")
         String nombre,
         @NotBlank(message = "{email.obligatorio}")
-        @Email
+        @Email (message = "{email.invalido}")
         String email,
         @NotBlank(message = "{telefono.obligatorio}")
         String telefono,
