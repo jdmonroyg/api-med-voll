@@ -8,9 +8,9 @@ import jakarta.validation.constraints.NotNull;
  * @project api-med-voll
  */
 public record DatosAutenticacionUsuario(
-        @NotBlank
+        @NotBlank (message = "{login.obligatorio}")
         String login,
-        @NotBlank
+        @NotBlank (message = "{clave.obligatorio}")
         String clave) {
 
 }
