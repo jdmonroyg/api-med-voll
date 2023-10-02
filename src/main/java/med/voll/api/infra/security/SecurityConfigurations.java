@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+//@EnableMethodSecurity(securedEnabled = true) se usa para poder usar a @Secured
 public class SecurityConfigurations {
     @Autowired
     private SecurityFilter securityFilter;
