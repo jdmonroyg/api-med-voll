@@ -1,17 +1,17 @@
 package med.voll.api.domain.consulta;
 
-import med.voll.api.domain.consulta.validaciones.HorarioDeAnticipacion;
+
+import med.voll.api.domain.consulta.desafio.ValidadorCancelamientoDeConsulta;
 import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
-import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.domain.paciente.PacienteRepository;
 import med.voll.api.infra.errores.ValidacionDeIntegridad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 /**
  * @author jdmon on 2/10/2023.
@@ -30,6 +30,12 @@ public class AgendaDeConsultaService {
     // sin necesidad de estar agregando una por una
     @Autowired
     List<ValidadorDeConsultas> validadores;
+
+    @Autowired
+    List<ValidadorCancelamientoDeConsulta> validadoresCancelamiento;
+
+    public AgendaDeConsultaService() {
+    }
 
     public DatosDetalleConsulta agendar(DatosAgendarConsulta datos){
         //para verificar si el paciente fue encontrado
@@ -51,7 +57,7 @@ public class AgendaDeConsultaService {
             throw new ValidacionDeIntegridad("No existen medicos disponibles para este horario" +
                     "y especialidad");
         }
-        var consulta= new Consulta(null,medico,paciente,datos.date());
+        var consulta= new Consulta(medico,paciente,datos.date());
         consultaRepository.save(consulta);
         return new DatosDetalleConsulta(consulta);
     }
@@ -66,5 +72,16 @@ public class AgendaDeConsultaService {
         }
         return medicoRepository.SeleccionarMedicoConEspecilidadEnFecha(datos.especialidad(),
                 datos.date());
+    }
+
+    public void cancelar(DatosCancelamientoConsulta datos){
+        if (consultaRepository.existsById(datos.idConsulta())){
+            throw new ValidacionDeIntegridad("Id de la consulta informado" +
+                    " no existe!");
+        }
+        validadoresCancelamiento.forEach(v->v.validar(datos));
+
+        var consulta = consultaRepository.getReferenceById(datos.idConsulta());
+        consulta.cancelar(datos.motivos());
     }
 }
