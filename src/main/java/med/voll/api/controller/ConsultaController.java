@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -29,12 +30,16 @@ public class ConsultaController {
     private AgendaDeConsultaService service;
     @PostMapping
     @Transactional
+    @Operation(
+            summary = "registra una consulta en la base de datos")
     public ResponseEntity<DatosDetalleConsulta> agendar(@RequestBody @Valid DatosAgendarConsulta datos){
         var response=service.agendar(datos);
         return ResponseEntity.ok(response);
     }
     @DeleteMapping
     @Transactional
+    @Operation(
+            summary = "Elimina una consulta en la base de datos")
     public ResponseEntity<Void> cancelar(@RequestBody @Valid DatosCancelamientoConsulta datos){
         service.cancelar(datos);
         return ResponseEntity.noContent().build();

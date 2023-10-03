@@ -45,6 +45,13 @@ public class Consulta {
         this.date=date;
     }
 
+    public Consulta(Medico medico, Paciente paciente, LocalDateTime date, MotivoCancelamiento motivo) {
+        this.medico=medico;
+        this.paciente=paciente;
+        this.date=date;
+        this.motivoCancelamiento=motivo;
+    }
+
     public void cancelar(MotivoCancelamiento motivo) {
         this.motivoCancelamiento = motivo;
     }

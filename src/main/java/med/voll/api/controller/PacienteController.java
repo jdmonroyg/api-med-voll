@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ public class PacienteController {
     @Autowired //no se recomienda para testing
     private PacienteRepository pacienteRepository;
     @PostMapping
+    @Operation(summary = "Registra un nuevo paciente")
     public ResponseEntity<DatosRespuestaPaciente> registrarPaciente(@RequestBody @Valid DatosRegistroPaciente datosRegistroPaciente,
                                                                     UriComponentsBuilder uriComponentsBuilder){
         //@Valid se utiliza para aplicar la validacion del DTO
@@ -36,12 +38,14 @@ public class PacienteController {
     }
 
     @GetMapping
+    @Operation(summary = "Obtiene el listado para los pacientes")
     public ResponseEntity<Page<DatosListadoPaciente>> listarPacientes (@PageableDefault(size = 5,sort = "nombre")Pageable paginacion){
         return ResponseEntity.ok(pacienteRepository.findByActivoTrue(paginacion).map(DatosListadoPaciente::new));
     }
 
     @PutMapping
     @Transactional
+    @Operation(summary = "Actualiza las informaciones para el paciente")
     public ResponseEntity<DatosRespuestaPaciente> actualizarPaciente(@RequestBody @Valid DatosActualizarPaciente datosActualizarPaciente){
         Paciente paciente = pacienteRepository.getReferenceById(datosActualizarPaciente.id());
         paciente.actualizarDatos(datosActualizarPaciente);
@@ -50,6 +54,7 @@ public class PacienteController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary = "Elimina un paciente a partir del ID - Inactivo")
     public ResponseEntity<Void> eliminarPaciente(@PathVariable Long id){
         Paciente paciente = pacienteRepository.getReferenceById(id);
         paciente.desactivarPaciente();
@@ -57,6 +62,7 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "obtiene los detalles para el paciente con el ID indicado")
     public ResponseEntity<DatosRespuestaPaciente> retornarDatosPaciente(@PathVariable Long id){
         Paciente paciente = pacienteRepository.getReferenceById(id);
         DatosRespuestaPaciente  datosRespuestaPaciente= new DatosRespuestaPaciente(paciente);
