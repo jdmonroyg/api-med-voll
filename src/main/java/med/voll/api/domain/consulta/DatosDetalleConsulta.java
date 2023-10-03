@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public record DatosDetalleConsulta (Long id, Long idPaciente, Long idMedico, LocalDateTime date) {
     public DatosDetalleConsulta(Consulta consulta){
-        this(consulta.getId(), consulta.getMedico().getId(),
-                consulta.getPaciente().getId(),consulta.getDate());
+        this(consulta.getId(), consulta.getPaciente().getId(),
+                consulta.getMedico().getId(),consulta.getDate());
     }
 }

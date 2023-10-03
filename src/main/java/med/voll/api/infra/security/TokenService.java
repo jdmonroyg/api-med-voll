@@ -50,6 +50,6 @@ public class TokenService {
     }
     //para generar fecha de expiracion
     private Instant generarFechaExpiracion(){
-        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-05:00"));
     }
 }

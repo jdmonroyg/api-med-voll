@@ -1,7 +1,8 @@
 package med.voll.api.domain.consulta;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 
 /**
  * @author jdmon on 28/09/2023.
@@ -10,4 +11,7 @@ import org.springframework.stereotype.Repository;
 
 public interface ConsultaRepository extends JpaRepository<Consulta,Long> {
 
+    Boolean existsByPacienteIdAndDateBetween(Long aLong, LocalDateTime primerHorario, LocalDateTime ultimoHorario);
+
+    Boolean existsByMedicoIdAndDate(Long aLong, LocalDateTime date);
 }

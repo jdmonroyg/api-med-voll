@@ -28,6 +28,11 @@ public class TratadorDeErrores {
         return ResponseEntity.badRequest().body(errores);
     }
 
+    @ExceptionHandler(ValidacionDeIntegridad.class)
+    public ResponseEntity<String> errorHandlerValidacionesDeNegocio(Exception exception){
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
     private record DatosErrorValidation(String campo, String error){
         public DatosErrorValidation(FieldError error){
             this(error.getField(),error.getDefaultMessage());
